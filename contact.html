@@ -7,10 +7,1026 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* СТИЛИ ДЛЯ МОБИЛЬНОГО МЕНЮ */
+        /* Бургер-меню */
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+
+        .burger-menu:hover {
+            transform: scale(1.1);
+        }
+
+        .burger-line {
+            width: 100%;
+            height: 3px;
+            background: #38bdf8;
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .burger-menu.active .burger-line:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+            background: #38bdf8;
+        }
+
+        .burger-menu.active .burger-line:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .burger-menu.active .burger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+            background: #38bdf8;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .mobile-menu::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            min-height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            padding: 40px;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .mobile-nav-links li {
+            width: 100%;
+            max-width: 300px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.5s forwards;
+        }
+
+        .mobile-nav-links li:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-nav-links li:nth-child(2) { animation-delay: 0.2s; }
+        .mobile-nav-links li:nth-child(3) { animation-delay: 0.3s; }
+        .mobile-nav-links li:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-nav-links a {
+            display: block;
+            width: 100%;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(56, 189, 248, 0.2);
+            border-radius: 15px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mobile-nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(56, 189, 248, 0.2),
+            transparent);
+            transition: left 0.6s ease;
+        }
+
+        .mobile-nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+        }
+
+        .mobile-nav-links a i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Лого в меню */
+        .menu-logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #38bdf8;
+            font-family: 'Space Mono', monospace;
+            z-index: 1000;
+        }
+
+        /* СТРЕЛКА "НАВЕРХ" */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f172a;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+            border: 2px solid #38bdf8;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            background: #0f172a;
+            color: #38bdf8;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
+        }
+
+        /* ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ КОНТАКТОВ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* НАВИГАЦИЯ */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            color: #e2e8f0;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        /* НАВИГАЦИЯ ДЛЯ ДЕСКТОПА */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #38bdf8;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 80%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        /* СТРАНИЦА КОНТАКТОВ */
+        #contact {
+            padding: 80px 5% 50px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #38bdf8, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Контактная сетка */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        /* Левая колонка - контактная информация */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(30, 41, 59, 0.9));
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            text-align: center;
+        }
+
+        .info-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(56, 189, 248, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: #38bdf8;
+            border: 2px solid rgba(56, 189, 248, 0.5);
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+
+        .role {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            padding: 8px 16px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Контактные методы */
+        .contact-methods {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .contact-methods h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #e2e8f0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #38bdf8;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            flex-shrink: 0;
+        }
+
+        .contact-details {
+            flex: 1;
+        }
+
+        .contact-details h4 {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .contact-link {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #60a5fa;
+            transform: translateX(5px);
+        }
+
+        .contact-note {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        /* Доступность */
+        .availability {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .availability h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .availability h4 i {
+            color: #38bdf8;
+        }
+
+        .availability p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+
+        /* Правая колонка - форма */
+        .contact-form-section {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .form-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-card h3 i {
+            color: #38bdf8;
+        }
+
+        .form-description {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+
+        .form-notice {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #38bdf8;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .form-notice i {
+            color: #38bdf8;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .form-notice p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        /* Форма */
+        .contact-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .form-group input:disabled,
+        .form-group textarea:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn.primary {
+            background: #38bdf8;
+            color: #0f172a;
+            border: 2px solid #38bdf8;
+        }
+
+        .btn.primary:hover:not(:disabled) {
+            background: transparent;
+            color: #38bdf8;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn.primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.outline {
+            background: transparent;
+            color: #38bdf8;
+            border: 2px solid #38bdf8;
+        }
+
+        .btn.outline:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-3px);
+        }
+
+        .btn.small {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        .alternative-contact {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .alternative-contact p {
+            margin-bottom: 15px;
+            color: #94a3b8;
+        }
+
+        .alt-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Карьерный раздел */
+        .career-section {
+            margin-top: 80px;
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .career-card {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .career-card:hover {
+            transform: translateY(-10px);
+            border-color: #38bdf8;
+            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.2);
+        }
+
+        .career-card i {
+            font-size: 2.5rem;
+            color: #38bdf8;
+            margin-bottom: 20px;
+        }
+
+        .career-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .career-card ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .career-card li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .career-card li:before {
+            content: '•';
+            color: #38bdf8;
+            position: absolute;
+            left: 0;
+        }
+
+        /* ФУТЕР */
+        footer {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 40px 5%;
+            margin-top: 60px;
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            margin-bottom: 15px;
+            color: #94a3b8;
+        }
+
+        .footer-content a {
+            color: #38bdf8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-content a:hover {
+            color: #60a5fa;
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .social-icons a {
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #38bdf8;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+        }
+
+        /* МЕДИА ЗАПРОСЫ */
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .career-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Герой секция */
+            #contact {
+                padding: 40px 5% 30px !important;
+                min-height: auto;
+            }
+
+            .section-title {
+                font-size: 2.2rem !important;
+                margin-bottom: 15px;
+            }
+
+            .subtitle {
+                font-size: 1rem !important;
+                margin-bottom: 0;
+            }
+
+            .contact-header {
+                margin-bottom: 40px;
+            }
+
+            /* Контактная сетка */
+            .contact-grid {
+                margin-bottom: 50px;
+            }
+
+            /* Карточки */
+            .info-card,
+            .contact-methods,
+            .availability,
+            .contact-form-section {
+                padding: 25px 20px;
+            }
+
+            .info-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .info-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .role {
+                font-size: 1rem;
+            }
+
+            /* Контактные элементы */
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
+            }
+
+            .contact-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3rem;
+            }
+
+            .contact-details h4 {
+                font-size: 0.9rem;
+            }
+
+            .contact-link {
+                font-size: 1rem;
+            }
+
+            .contact-note {
+                font-size: 0.8rem;
+            }
+
+            /* Форма */
+            .form-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .form-description {
+                font-size: 0.9rem;
+            }
+
+            .form-notice {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .alt-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn.small {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+
+            /* Карьерный раздел */
+            .career-section {
+                margin-top: 50px;
+            }
+
+            .career-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .career-card {
+                padding: 25px 20px;
+            }
+
+            .career-card i {
+                font-size: 2rem;
+            }
+
+            .career-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .career-card li {
+                font-size: 0.9rem;
+            }
+
+            /* Стрелка "наверх" на мобильных */
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            /* Убираем горизонтальный скролл */
+            html, body {
+                overflow-x: hidden !important;
+                width: 100% !important;
+            }
+
+            /* Фиксы для текста на мобильных */
+            p, h1, h2, h3, h4, span {
+                word-break: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-nav-links a {
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+
+            .menu-logo {
+                top: 25px;
+                left: 20px;
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem !important;
+            }
+
+            .contact-item {
+                gap: 12px;
+            }
+
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<!-- Мобильное меню -->
+<div class="mobile-menu">
+    <div class="menu-logo">Mayzic.<span>DEV</span></div>
+
+    <ul class="mobile-nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
+        <li><a href="about.html"><i class="fas fa-user"></i> Обо мне</a></li>
+        <li><a href="portfolio/index.html"><i class="fas fa-briefcase"></i> Портфолио</a></li>
+        <li><a href="contact.html" class="active"><i class="fas fa-envelope"></i> Контакты</a></li>
+    </ul>
+</div>
+
+<!-- Стрелка "наверх" -->
+<div class="scroll-to-top">
+    <i class="fas fa-arrow-up"></i>
+</div>
+
+<!-- НАВИГАЦИЯ -->
 <nav>
     <div class="logo">Mayzic.<span>DEV</span></div>
+
+    <!-- Бургер-меню для мобильных -->
+    <div class="burger-menu">
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+    </div>
+
+    <!-- Навигация для десктопа -->
     <ul class="nav-links">
         <li><a href="index.html">Главная</a></li>
         <li><a href="about.html">Обо мне</a></li>
@@ -18,6 +1034,7 @@
         <li><a href="contact.html" class="active">Контакты</a></li>
     </ul>
 </nav>
+<!-- КОНЕЦ ДОБАВЛЕНИЯ -->
 
 <section id="contact" class="page-transition">
     <div class="contact-container">
@@ -196,6 +1213,199 @@
         <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
     </div>
 </footer>
+
+<script>
+    // БАЗОВЫЙ СКРИПТ ДЛЯ СТРАНИЦЫ КОНТАКТОВ
+
+    // 1. Управление мобильным меню
+    const burgerMenu = document.querySelector('.burger-menu');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+    const body = document.body;
+
+    // Флаг для отслеживания состояния меню
+    let isMenuOpen = false;
+
+    // Открытие/закрытие меню
+    function toggleMenu() {
+        console.log('📱 toggleMenu вызван');
+
+        if (!mobileMenu || !burgerMenu) {
+            console.error('❌ Мобильное меню или бургер не найдены');
+            return;
+        }
+
+        isMenuOpen = !isMenuOpen;
+
+        if (isMenuOpen) {
+            // Открываем меню
+            burgerMenu.classList.add('active');
+            mobileMenu.classList.add('active');
+            body.style.overflow = 'hidden';
+            console.log('✅ Мобильное меню открыто');
+        } else {
+            // Закрываем меню
+            burgerMenu.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            body.style.overflow = '';
+            console.log('✅ Мобильное меню закрыто');
+        }
+    }
+
+    // Закрытие меню при клике на ссылку
+    if (mobileLinks.length > 0) {
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                console.log('📱 Клик по ссылке меню');
+
+                // Закрываем меню
+                if (isMenuOpen) {
+                    burgerMenu.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    body.style.overflow = '';
+                    isMenuOpen = false;
+                    console.log('✅ Меню закрыто после клика на ссылку');
+                }
+            });
+        });
+    }
+
+    // Закрытие меню при клике вне меню
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                console.log('📱 Клик вне меню (по оверлею)');
+                toggleMenu();
+            }
+        });
+    }
+
+    // Закрытие меню по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen) {
+            console.log('📱 Нажата клавиша Escape');
+            toggleMenu();
+        }
+    });
+
+    // Обработчик для бургер-меню
+    if (burgerMenu) {
+        burgerMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            console.log('📱 Клик по бургер-меню');
+            toggleMenu();
+        });
+    }
+
+    // 2. СТРЕЛКА "НАВЕРХ"
+    const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+    // Показывать/скрывать стрелку при скролле
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.add('visible');
+        } else {
+            scrollToTopBtn.classList.remove('visible');
+        }
+    });
+
+    // Плавный скролл наверх при клике
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // 3. Плавный скролл для якорных ссылок
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // 4. Фиксы для мобильных
+    function applyMobileFixes() {
+        if (window.innerWidth <= 768) {
+            console.log('🔧 Применяем фиксы для мобильных');
+
+            // Убираем горизонтальный скролл
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
+        } else {
+            document.body.style.overflowX = '';
+            document.documentElement.style.overflowX = '';
+        }
+    }
+
+    // 5. Закрытие меню при переходе на десктоп
+    window.addEventListener('resize', () => {
+        applyMobileFixes();
+
+        if (window.innerWidth > 768 && isMenuOpen) {
+            burgerMenu.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            body.style.overflow = '';
+            isMenuOpen = false;
+            console.log('✅ Меню закрыто при переходе на десктоп');
+        }
+    });
+
+    // 6. Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Страница контактов загружена');
+
+        // Проверяем элементы меню
+        console.log('🔍 Проверка элементов меню:');
+        console.log('Бургер меню:', burgerMenu ? 'Найден' : 'Не найден');
+        console.log('Мобильное меню:', mobileMenu ? 'Найдено' : 'Не найдено');
+        console.log('Ссылки в меню:', mobileLinks.length);
+
+        // Применяем мобильные фиксы
+        applyMobileFixes();
+
+        // Добавляем класс для анимаций
+        document.body.classList.add('page-loaded');
+    });
+
+    // 7. Дополнительные фиксы после полной загрузки
+    window.addEventListener('load', function() {
+        console.log('✨ Страница контактов полностью загружена');
+        applyMobileFixes();
+    });
+
+    // 8. Дебаг функция (вызвать в консоли: debugContacts())
+    window.debugContacts = function() {
+        console.log('🔧 Отладка страницы контактов:');
+        console.log('Ширина окна:', window.innerWidth);
+        console.log('Состояние меню:', isMenuOpen ? 'Открыто' : 'Закрыто');
+        console.log('Скролл позиция:', window.scrollY);
+        console.log('Стрелка "наверх":', scrollToTopBtn.classList.contains('visible') ? 'Видима' : 'Скрыта');
+    };
+
+    // 9. Фикс для iOS Safari
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    }
+
+    // 10. Простая функция для тестирования меню
+    window.testMenu = function() {
+        console.log('🧪 Тестирование меню...');
+        toggleMenu();
+    };
+</script>
 
 <script src="script.js"></script>
 </body>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Страница не найдена | Павел Шумков</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="about.html">Обо мне</a></li>
+        <li><a href="portfolio/index.html">Портфолио</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="error-404">
+    <div class="error-container">
+        <!-- Анимированный номер ошибки -->
+        <div class="error-number">
+            <span class="digit">4</span>
+            <div class="zero-container">
+                <div class="terminal-screen">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="terminal-title">bash</span>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="command-line">
+                            <span class="prompt">$</span> find /page
+                        </div>
+                        <div class="command-output">
+                            find: '/page': No such file or directory
+                        </div>
+                        <div class="command-line">
+                            <span class="prompt">$</span> ls -la /
+                        </div>
+                        <div class="command-output">
+                            drwxr-xr-x   <span class="file-link">.</span><br>
+                            drwxr-xr-x   <span class="file-link">..</span><br>
+                            drwxr-xr-x   <span class="file-link">index.html</span><br>
+                            drwxr-xr-x   <span class="file-link">about.html</span><br>
+                            drwxr-xr-x   <span class="file-link">portfolio/</span><br>
+                            drwxr-xr-x   <span class="file-link">contact.html</span><br>
+                            -rw-r--r--   <span class="file-missing">this-page</span>
+                        </div>
+                        <div class="blinking-cursor">_</div>
+                    </div>
+                </div>
+            </div>
+            <span class="digit">4</span>
+        </div>
+
+        <h1 class="error-title">Страница не найдена</h1>
+
+        <p class="error-description">
+            Запрошенная страница не существует или была перемещена.<br>
+            Возможно, она была удалена при очередном <code>git rm</code> или потерялась в облаке.
+        </p>
+
+        <!-- DevOps мемы -->
+        <div class="devops-memes">
+            <div class="meme-card">
+                <div class="meme-header">
+                    <i class="fas fa-server"></i>
+                    <h3>Классика DevOps</h3>
+                </div>
+                <div class="meme-content">
+                    <p class="meme-quote">"It works on my machine"</p>
+                    <div class="meme-translation">
+                        <i class="fas fa-language"></i>
+                        <span>"У меня на компе работало"</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meme-card">
+                <div class="meme-header">
+                    <i class="fas fa-code"></i>
+                    <h3>Про Docker</h3>
+                </div>
+                <div class="meme-content">
+                    <p class="meme-quote">"We'll just Dockerize it"</p>
+                    <div class="meme-translation">
+                        <i class="fas fa-language"></i>
+                        <span>"Просто закинем в Docker"</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meme-card">
+                <div class="meme-header">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Про облака</h3>
+                </div>
+                <div class="meme-content">
+                    <p class="meme-quote">"It's in the cloud"</p>
+                    <div class="meme-translation">
+                        <i class="fas fa-language"></i>
+                        <span>"Оно в облаке" = "Я не знаю где"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Возможные причины -->
+        <div class="error-causes">
+            <h3><i class="fas fa-bug"></i> Возможные причины:</h3>
+            <ul>
+                <li><i class="fas fa-terminal"></i> Опечатка в URL (проверь <code>ls -la</code> на правильность)</li>
+                <li><i class="fas fa-code-branch"></i> Страница была перемещена после <code>git mv</code></li>
+                <li><i class="fas fa-trash-alt"></i> Рекурсивное удаление: <code>rm -rf /*</code> (шутка)</li>
+                <li><i class="fas fa-cloud"></i> Файл потерялся при синхронизации с облаком</li>
+                <li><i class="fas fa-docker"></i> Контейнер с этой страницей упал и не поднялся</li>
+            </ul>
+        </div>
+
+        <!-- Решения -->
+        <div class="error-solutions">
+            <h3><i class="fas fa-wrench"></i> Что можно сделать:</h3>
+            <div class="solutions-grid">
+                <div class="solution">
+                    <i class="fas fa-home"></i>
+                    <h4>Вернуться на главную</h4>
+                    <p>Самый простой и надежный путь</p>
+                    <a href="index.html" class="btn primary small">На главную</a>
+                </div>
+                <div class="solution">
+                    <i class="fas fa-search"></i>
+                    <h4>Поиск по сайту</h4>
+                    <p>Используй навигацию или Ctrl+F</p>
+                    <a href="portfolio/index.html" class="btn secondary small">В портфолио</a>
+                </div>
+                <div class="solution">
+                    <i class="fas fa-history"></i>
+                    <h4>Откатить изменения</h4>
+                    <p>Попробуй <code>git checkout -- .</code></p>
+                    <a href="https://github.com/Mayzic/MEM_INF-portfolio" target="_blank" class="btn outline small">GitHub репозиторий</a>
+                </div>
+                <div class="solution">
+                    <i class="fas fa-life-ring"></i>
+                    <h4>Сообщить о проблеме</h4>
+                    <p>Если это баг - дай знать!</p>
+                    <a href="contact.html" class="btn accent small">Сообщить о баге</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Консольные шутки -->
+        <div class="console-jokes">
+            <h3><i class="fas fa-laugh-beam"></i> Консольный юмор:</h3>
+            <div class="joke-terminal">
+                <div class="joke-line">
+                    <span class="prompt">$</span> whereis sanity
+                </div>
+                <div class="joke-output">
+                    sanity: /dev/null
+                </div>
+                <div class="joke-line">
+                    <span class="prompt">$</span> sudo make coffee
+                </div>
+                <div class="joke-output">
+                    Error: coffee machine not found. Try 'sudo apt install coffee'
+                </div>
+                <div class="joke-line">
+                    <span class="prompt">$</span> git blame developer
+                </div>
+                <div class="joke-output">
+                    fatal: Cannot blame. It's always DevOps.
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="error-stats">
+            <div class="stat">
+                <i class="fas fa-clock"></i>
+                <div class="stat-number">0.001%</div>
+                <div class="stat-label">Вероятность найти эту страницу</div>
+            </div>
+            <div class="stat">
+                <i class="fas fa-code"></i>
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label>Вероятность что это не баг, а фича</div>
+            </div>
+            <div class="stat">
+                <i class="fas fa-coffee"></i>
+                <div class="stat-number">∞</div>
+                <div class="stat-label>Чашек кофе при разработке</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+                <p>Нашел баг? <a href="contact.html">Сообщи мне</a> или создай issue на <a href="https://github.com/Mayzic/MEM_INF-portfolio" target="_blank">GitHub</a></p>
+                <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+                <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+                <div class="social-icons">
+                    <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+                    <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+                </div>
+                <p class="copyright">© 2025 Шумков Павел. Ошибка 404 — это не баг, это фича.</p>
+            </div>
+            </footer>
+
+            <script src="script.js"></script>
+</body>
+</html>
