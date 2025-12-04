@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио | Павел Шумков - Дата-Инженер / DevOps</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Главная</a></li>
+        <li><a href="../about.html">Обо мне</a></li>
+        <li><a href="index.html" class="active">Портфолио</a></li>
+        <li><a href="../contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="portfolio-main">
+    <!-- Герой-секция портфолио -->
+    <div class="portfolio-hero">
+        <div class="hero-content">
+            <h1>Мои <span class="highlight">Проекты</span></h1>
+            <p class="subtitle">Практический опыт в Дата-Инжиниринге, DevOps и разработке</p>
+            <p class="description">Здесь собраны ключевые проекты, демонстрирующие мой технический стек, подход к решению задач и внимание к деталям в реализации.</p>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Завершенных проектов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Основных направления</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Технологий в стеке</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Рабочих решений</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Визуальный элемент -->
+        <div class="portfolio-visual">
+            <div class="code-icon">
+                <i class="fas fa-code"></i>
+                <i class="fas fa-server"></i>
+                <i class="fas fa-database"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Категории проектов -->
+    <div class="categories-section">
+        <h2 class="section-title">Категории проектов</h2>
+        <p class="section-subtitle">Выберите направление для просмотра детальной информации</p>
+
+        <div class="categories-grid">
+            <a href="#ai-ml" class="category-card" data-category="ai-ml">
+                <div class="category-image">
+                    <img src="../img/projects/category-ai-ml.jpg"
+                         alt="AI и машинное обучение - проекты с искусственным интеллектом">
+                    <div class="category-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3>AI/ML & Data Science</h3>
+                    <p>Проекты с искусственным интеллектом, машинным обучением и обработкой данных. RAG-системы, анализ текстов, векторные базы.</p>
+                    <div class="project-count">1 проект</div>
+                    <div class="category-tech">
+                        <span>Python</span>
+                        <span>FastAPI</span>
+                        <span>Docker</span>
+                        <span>ChromaDB</span>
+                    </div>
+                </div>
+                <div class="category-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <a href="#devops" class="category-card" data-category="devops">
+                <div class="category-image">
+                    <img src="../img/projects/category-devops.jpg"
+                         alt="DevOps и инфраструктура - автоматизация, облака, CI/CD">
+                    <div class="category-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3>DevOps & Infrastructure</h3>
+                    <p>CI/CD пайплайны, контейнеризация, облачная инфраструктура и автоматизация. Yandex Cloud, Docker, Kubernetes, Terraform.</p>
+                    <div class="project-count">2 проекта</div>
+                    <div class="category-tech">
+                        <span>Docker</span>
+                        <span>Terraform</span>
+                        <span>GitHub Actions</span>
+                        <span>K8s</span>
+                    </div>
+                </div>
+                <div class="category-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <a href="#telegram" class="category-card" data-category="telegram">
+                <div class="category-image">
+                    <img src="../img/projects/category-telegram.jpg"
+                         alt="Telegram боты - асинхронные Python боты с базами данных">
+                    <div class="category-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3>Telegram Боты</h3>
+                    <p>Асинхронные боты на Python с базами данных, FSM и контейнеризацией. Образовательные боты, напоминалки, полезные утилиты.</p>
+                    <div class="project-count">2 проекта</div>
+                    <div class="category-tech">
+                        <span>Python</span>
+                        <span>aiogram</span>
+                        <span>SQLite</span>
+                        <span>Docker</span>
+                    </div>
+                </div>
+                <div class="category-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Все проекты в виде сетки -->
+    <div class="all-projects-section">
+        <h2 class="section-title">Все проекты</h2>
+        <p class="section-subtitle">От самых сложных до учебных - каждый проект демонстрирует определенный навык</p>
+
+        <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="ai-ml">AI/ML</button>
+            <button class="filter-btn" data-filter="devops">DevOps</button>
+            <button class="filter-btn" data-filter="telegram">Telegram</button>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Проект 1: Legal Monitor API -->
+            <div class="project-card" data-category="ai-ml">
+                <div class="project-badge ai-ml-badge">AI/ML</div>
+                <div class="project-image">
+                    <img src="../img/projects/legal-monitor-api.jpg"
+                         alt="Legal Monitor API - RAG система анализа юридических документов с AI">
+                    <div class="project-overlay">
+                        <a href="ai-ml.html" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Legal Monitor API</h3>
+                    <p class="project-description">RAG-система мониторинга рекламы с AI-анализом на соответствие законодательству. Векторный поиск по 1000+ юридических статей, интеграция с GigaChat.</p>
+
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-star"></i>
+                            <span>Основной проект</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span>Python + FastAPI</span>
+                        </div>
+                    </div>
+
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>FastAPI</span>
+                        <span>Docker</span>
+                        <span>ChromaDB</span>
+                        <span>GigaChat AI</span>
+                        <span>CI/CD</span>
+                    </div>
+
+                    <div class="project-links">
+                        <a href="ai-ml.html" class="project-link">
+                            <i class="fas fa-info-circle"></i> Детали проекта
+                        </a>
+                        <a href="https://github.com/Mayzic/legal-monitor" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Код на GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 2: CI/CD Pipeline -->
+            <div class="project-card" data-category="devops">
+                <div class="project-badge devops-badge">DevOps</div>
+                <div class="project-image">
+                    <img src="../img/projects/cicd-pipeline.jpg"
+                         alt="CI/CD Pipeline - автоматизация деплоя с GitHub Actions и Docker">
+                    <div class="project-overlay">
+                        <a href="devops.html" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>CI/CD Pipeline</h3>
+                    <p class="project-description">Автоматизация деплоя микросервисов с GitHub Actions, Docker и Yandex Cloud. Включает тестирование, сборку, деплой и rollback механизм.</p>
+
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Полная автоматизация</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-cloud"></i>
+                            <span>Yandex Cloud</span>
+                        </div>
+                    </div>
+
+                    <div class="project-tech">
+                        <span>GitHub Actions</span>
+                        <span>Docker</span>
+                        <span>Terraform</span>
+                        <span>Yandex Cloud</span>
+                        <span>K8s</span>
+                        <span>Bash</span>
+                    </div>
+
+                    <div class="project-links">
+                        <a href="devops.html" class="project-link">
+                            <i class="fas fa-info-circle"></i> Детали проекта
+                        </a>
+                        <a href="https://github.com/Mayzic/cicd-pipeline" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Конфигурация
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 3: Infrastructure as Code -->
+            <div class="project-card" data-category="devops">
+                <div class="project-badge devops-badge">DevOps</div>
+                <div class="project-image">
+                    <img src="../img/projects/infrastructure-as-code.jpg"
+                         alt="Infrastructure as Code - облачная инфраструктура с Terraform">
+                    <div class="project-overlay">
+                        <a href="devops.html#infrastructure" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Infrastructure as Code</h3>
+                    <p class="project-description">Автоматизация облачной инфраструктуры с Terraform, Ansible и Docker Compose. Мониторинг с Prometheus и Grafana, логирование ELK Stack.</p>
+
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-cloud"></i>
+                            <span>Облачная инфраструктура</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Мониторинг</span>
+                        </div>
+                    </div>
+
+                    <div class="project-tech">
+                        <span>Terraform</span>
+                        <span>Ansible</span>
+                        <span>Docker Compose</span>
+                        <span>Prometheus</span>
+                        <span>Grafana</span>
+                        <span>Linux</span>
+                    </div>
+
+                    <div class="project-links">
+                        <a href="devops.html#infrastructure" class="project-link">
+                            <i class="fas fa-info-circle"></i> Детали проекта
+                        </a>
+                        <a href="https://github.com/Mayzic/iac-terraform" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Terraform код
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 4: Telegram Reminder Bot -->
+            <div class="project-card" data-category="telegram">
+                <div class="project-badge telegram-badge">Telegram</div>
+                <div class="project-image">
+                    <img src="../img/projects/telegram-reminder-bot.jpg"
+                         alt="Telegram Reminder Bot - асинхронный бот для напоминаний">
+                    <div class="project-overlay">
+                        <a href="telegram-bots.html#reminder" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Telegram Reminder Bot</h3>
+                    <p class="project-description">Асинхронный бот для напоминаний с FSM, SQLite базой и Docker-контейнеризацией. Точность до минуты, быстрые напоминания, фоновая обработка.</p>
+
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-robot"></i>
+                            <span>Асинхронный бот</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-database"></i>
+                            <span>SQLite</span>
+                        </div>
+                    </div>
+
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>aiogram</span>
+                        <span>SQLite</span>
+                        <span>asyncio</span>
+                        <span>Docker</span>
+                        <span>FSM</span>
+                    </div>
+
+                    <div class="project-links">
+                        <a href="telegram-bots.html#reminder" class="project-link">
+                            <i class="fas fa-info-circle"></i> Детали проекта
+                        </a>
+                        <a href="https://github.com/Mayzic/telegram-reminder-bot" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> Исходный код
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Проект 5: Physics Prep Bot -->
+            <div class="project-card" data-category="telegram">
+                <div class="project-badge telegram-badge">Telegram</div>
+                <div class="project-image">
+                    <img src="../img/projects/physics-prep-bot.jpg"
+                         alt="Physics Prep Bot - образовательный бот для подготовки по физике">
+                    <div class="project-overlay">
+                        <a href="telegram-bots.html#physics" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Physics Prep Bot</h3>
+                    <p class="project-description">Образовательный бот для подготовки к экзаменам по физике. 84 вопроса, челлендж-режим, статистика прогресса. Рандомизация вопросов и детальные объяснения.</p>
+
+                    <div class="project-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Образовательный</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Челлендж-режим</span>
+                        </div>
+                    </div>
+
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>aiogram</span>
+                        <span>JSON</span>
+                        <span>FSM</span>
+                        <span>Random</span>
+                        <span>asyncio</span>
+                    </div>
+
+                    <div class="project-links">
+                        <a href="telegram-bots.html#physics" class="project-link">
+                            <i class="fas fa-info-circle"></i> Детали проекта
+                        </a>
+                        <a href="https://github.com/Mayzic/physics-prep-bot" target="_blank" class="project-link">
+                            <i class="fab fa-github"></i> База вопросов
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Технологический стек -->
+    <div class="tech-stack-section">
+        <h2 class="section-title">Технологический стек</h2>
+        <p class="section-subtitle">Технологии, которые я использую в своих проектах</p>
+
+        <div class="tech-categories">
+            <div class="tech-category-card">
+                <h3><i class="fab fa-python"></i> Python & Backend</h3>
+                <div class="tech-list">
+                    <span class="tech-item">FastAPI</span>
+                    <span class="tech-item">Django</span>
+                    <span class="tech-item">aiogram</span>
+                    <span class="tech-item">Pandas</span>
+                    <span class="tech-item">NumPy</span>
+                    <span class="tech-item">SQLAlchemy</span>
+                    <span class="tech-item">Asyncio</span>
+                    <span class="tech-item">Airflow</span>
+                </div>
+            </div>
+
+            <div class="tech-category-card">
+                <h3><i class="fas fa-server"></i> DevOps & Cloud</h3>
+                <div class="tech-list">
+                    <span class="tech-item">Docker</span>
+                    <span class="tech-item">Kubernetes</span>
+                    <span class="tech-item">Terraform</span>
+                    <span class="tech-item">GitHub Actions</span>
+                    <span class="tech-item">Yandex Cloud</span>
+                    <span class="tech-item">Linux/Bash</span>
+                    <span class="tech-item">Ansible</span>
+                    <span class="tech-item">Prometheus</span>
+                </div>
+            </div>
+
+            <div class="tech-category-card">
+                <h3><i class="fas fa-database"></i> Databases & Data</h3>
+                <div class="tech-list">
+                    <span class="tech-item">PostgreSQL</span>
+                    <span class="tech-item">MongoDB</span>
+                    <span class="tech-item">SQLite</span>
+                    <span class="tech-item">ClickHouse</span>
+                    <span class="tech-item">ChromaDB</span>
+                    <span class="tech-item">Redis</span>
+                    <span class="tech-item">ETL/ELT</span>
+                    <span class="tech-item">Data Pipelines</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Призыв к действию -->
+    <div class="portfolio-cta">
+        <div class="cta-content">
+            <h2>Заинтересованы в сотрудничестве?</h2>
+            <p>Ищу позицию <strong>Дата-Инженера</strong> или <strong>DevOps инженера</strong>. Готов к сложным задачам по построению data-пайплайнов, настройке инфраструктуры и автоматизации процессов.</p>
+
+            <div class="cta-stats">
+                <div class="cta-stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Готов к удаленной работе</span>
+                </div>
+                <div class="cta-stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Открыт для релокации</span>
+                </div>
+                <div class="cta-stat">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Рассматриваю проекты любой сложности</span>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="../contact.html" class="btn primary large">
+                    <i class="fas fa-envelope"></i> Связаться со мной
+                </a>
+                <a href="../about.html" class="btn outline large">
+                    <i class="fas fa-user"></i> Подробнее обо мне
+                </a>
+                <a href="https://github.com/Mayzic" target="_blank" class="btn outline large">
+                    <i class="fab fa-github"></i> Мой GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="../script.js"></script>
+<script src="portfolio.js"></script>
+</body>
+</html>

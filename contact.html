@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Павел Шумков | Контакты</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="about.html">Обо мне</a></li>
+        <li><a href="portfolio/index.html">Портфолио</a></li>
+        <li><a href="contact.html" class="active">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="contact" class="page-transition">
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1 class="section-title">Связаться со мной</h1>
+            <p class="subtitle">Всегда открыт для обсуждения проектов, сотрудничества или просто интересного общения о технологиях</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Контактная информация -->
+            <div class="contact-info">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Павел Шумков</h3>
+                    <p class="role">Дата-Инженер / DevOps</p>
+                    <p class="status">Ищу позицию для развития</p>
+                </div>
+
+                <div class="contact-methods">
+                    <h3>Прямые контакты</h3>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Телефон</h4>
+                            <a href="tel:+79222572429" class="contact-link">+7 (922) 257-24-29</a>
+                            <p class="contact-note">WhatsApp / Telegram</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <a href="mailto:shumkov.pasha@list.ru" class="contact-link">shumkov.pasha@list.ru</a>
+                            <p class="contact-note">Рабочая почта</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Telegram</h4>
+                            <a href="https://t.me/Hippo_lilka" target="_blank" class="contact-link">@Hippo_lilka</a>
+                            <p class="contact-note">Предпочтительный способ связи</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>GitHub</h4>
+                            <a href="https://github.com/Mayzic" target="_blank" class="contact-link">github.com/Mayzic</a>
+                            <p class="contact-note">Мои проекты и код</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="availability">
+                    <h4><i class="fas fa-clock"></i> Доступность</h4>
+                    <p>• Готов к техническим собеседованиям</p>
+                    <p>• Рассматриваю проекты любой сложности</p>
+                    <p>• Открыт для удаленной работы</p>
+                </div>
+            </div>
+
+            <!-- Форма обратной связи (упрощенная, без отправки) -->
+            <div class="contact-form-section">
+                <div class="form-card">
+                    <h3><i class="fas fa-paper-plane"></i> Написать сообщение</h3>
+                    <p class="form-description">Заполните форму ниже, и я свяжусь с вами в ближайшее время</p>
+
+                    <div class="form-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Форма находится в разработке. Пожалуйста, используйте прямые контакты слева.</p>
+                    </div>
+
+                    <form id="contactForm" class="contact-form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" placeholder="Иван Иванов" required disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="ivan@example.com" required disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Тема</label>
+                            <input type="text" id="subject" placeholder="Предложение о сотрудничестве" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" rows="5" placeholder="Расскажите о вашем проекте или предложении..." disabled></textarea>
+                        </div>
+
+                        <button type="submit" class="btn primary" disabled>
+                            <i class="fas fa-paper-plane"></i> Форма временно недоступна
+                        </button>
+                    </form>
+
+                    <div class="alternative-contact">
+                        <p><strong>Альтернативные способы связи:</strong></p>
+                        <div class="alt-buttons">
+                            <a href="mailto:shumkov.pasha@list.ru" class="btn outline small">
+                                <i class="fas fa-envelope"></i> Написать на email
+                            </a>
+                            <a href="https://t.me/Hippo_lilka" target="_blank" class="btn outline small">
+                                <i class="fab fa-telegram"></i> Написать в Telegram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карьера -->
+        <div class="career-section">
+            <h2 class="section-title">Карьерные интересы</h2>
+            <div class="career-grid">
+                <div class="career-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Дата-Инженер</h3>
+                    <ul>
+                        <li>Построение data-пайплайнов</li>
+                        <li>ETL/ELT процессы</li>
+                        <li>Оптимизация запросов</li>
+                        <li>Data Warehouse</li>
+                    </ul>
+                </div>
+                <div class="career-card">
+                    <i class="fas fa-server"></i>
+                    <h3>DevOps Инженер</h3>
+                    <ul>
+                        <li>CI/CD пайплайны</li>
+                        <li>Контейнеризация (Docker)</li>
+                        <li>Облачная инфраструктура</li>
+                        <li>Мониторинг и логирование</li>
+                    </ul>
+                </div>
+                <div class="career-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Python Разработчик</h3>
+                    <ul>
+                        <li>Backend на FastAPI</li>
+                        <li>Микросервисная архитектура</li>
+                        <li>Асинхронное программирование</li>
+                        <li>Интеграция с внешними API</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

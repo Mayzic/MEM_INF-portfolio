@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Боты | Павел Шумков</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Главная</a></li>
+        <li><a href="../about.html">Обо мне</a></li>
+        <li><a href="index.html" class="active">Портфолио</a></li>
+        <li><a href="../contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="project-detail">
+    <div class="project-detail-header">
+        <span class="category-badge">Telegram Bot • Python • aiogram</span>
+        <h3>Telegram Боты</h3>
+        <p>Полезные боты с различной функциональностью на Python + aiogram</p>
+    </div>
+
+    <div class="project-detail-content">
+        <!-- Бот-напоминалка -->
+        <div id="reminder" class="code-section">
+            <div class="code-section-header">
+                <i class="fas fa-bell"></i>
+                <h5>Бот-Напоминалка</h5>
+            </div>
+
+            <div class="code-explanation">
+                <h6>О проекте:</h6>
+                <p>Telegram бот для создания персональных напоминаний с точностью до минуты. Поддерживает быстрые напоминания (через 5/15/30 минут) и обычные с указанием даты и времени.</p>
+
+                <h6>Особенности:</h6>
+                <ul>
+                    <li>✅ FSM (Finite State Machine) для управления диалогами</li>
+                    <li>✅ SQLite база данных для хранения напоминаний</li>
+                    <li>✅ Фоновая задача для проверки и отправки напоминаний</li>
+                    <li>✅ Валидация ввода даты и времени</li>
+                    <li>✅ Docker-контейнеризация для деплоя</li>
+                    <li>✅ Логирование и обработка ошибок</li>
+                </ul>
+            </div>
+
+            <div class="bot-features-grid">
+                <div class="bot-feature">
+                    <i class="fas fa-database"></i>
+                    <h6>База данных</h6>
+                    <p>SQLite с таблицами users и reminders</p>
+                </div>
+                <div class="bot-feature">
+                    <i class="fas fa-tasks"></i>
+                    <h6>Фоновая задача</h6>
+                    <p>Asyncio task для проверки напоминаний</p>
+                </div>
+                <div class="bot-feature">
+                    <i class="fas fa-calendar-check"></i>
+                    <h6>Гибкое планирование</h6>
+                    <p>Быстрые и точные напоминания</p>
+                </div>
+                <div class="bot-feature">
+                    <i class="fas fa-code"></i>
+                    <h6>Чистая архитектура</h6>
+                    <p>Разделение логики, БД и обработчиков</p>
+                </div>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">main.py - Основная логика бота</h4>
+                <pre><code class="language-python">
+import asyncio
+import logging
+import sqlite3
+from datetime import datetime, timedelta
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+
+# Конфигурация
+API_TOKEN = 'YOUR_BOT_TOKEN'
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(storage=MemoryStorage())
+
+# Состояния FSM
+class ReminderStates(StatesGroup):
+    waiting_for_text = State()
+    waiting_for_date = State()
+    waiting_for_time = State()
+
+# Инициализация базы данных
+def init_db():
+    conn = sqlite3.connect('reminders.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            username TEXT,
+            first_name TEXT,
+            join_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS reminders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            text TEXT NOT NULL,
+            remind_datetime TIMESTAMP NOT NULL,
+            status TEXT DEFAULT 'pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+# Фоновая задача для проверки напоминаний
+async def check_reminders():
+    while True:
+        try:
+            conn = sqlite3.connect('reminders.db')
+            cursor = conn.cursor()
+
+            # Получаем напоминания, время которых наступило
+            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            cursor.execute(
+                "SELECT id, user_id, text FROM reminders WHERE remind_datetime <= ? AND status = 'pending'",
+                (now,)
+            )
+
+            reminders = cursor.fetchall()
+
+            for reminder_id, user_id, text in reminders:
+                try:
+                    await bot.send_message(
+                        user_id,
+                        f"⏰ Напоминание!\n\n{text}\n\nНадеюсь, вы не забыли! ✅"
+                    )
+
+                    # Помечаем как отправленное
+                    cursor.execute(
+                        "UPDATE reminders SET status = 'sent' WHERE id = ?",
+                        (reminder_id,)
+                    )
+
+                    await asyncio.sleep(1)
+
+                except Exception as e:
+                    logging.error(f"Ошибка отправки напоминания {reminder_id}: {e}")
+
+            conn.commit()
+            conn.close()
+
+        except Exception as e:
+            logging.error(f"Ошибка в фоновой задаче: {e}")
+
+        await asyncio.sleep(10)  # Проверяем каждые 10 секунд
+
+# Команда /start
+@dp.message(Command("start"))
+async def cmd_start(message: types.Message):
+    user = message.from_user
+
+    # Сохраняем пользователя в БД
+    conn = sqlite3.connect('reminders.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT OR IGNORE INTO users (id, username, first_name) VALUES (?, ?, ?)",
+        (user.id, user.username, user.first_name)
+    )
+    conn.commit()
+    conn.close()
+
+    await message.answer(
+        f"👋 Привет, {user.first_name}!\n\n"
+        "Я бот-напоминалка! Используй команды:\n"
+        "/remind - создать напоминание\n"
+        "/list - посмотреть свои напоминания\n"
+        "/help - справка"
+    )
+
+# Команда /remind
+@dp.message(Command("remind"))
+async def cmd_remind(message: types.Message, state: FSMContext):
+    await message.answer(
+        "📝 Введите текст напоминания:\n\n"
+        "Например: «Позвонить маме» или «Сдать отчет»"
+    )
+    await state.set_state(ReminderStates.waiting_for_text)
+
+# Обработчик текста напоминания
+@dp.message(ReminderStates.waiting_for_text)
+async def process_text(message: types.Message, state: FSMContext):
+    await state.update_data(text=message.text)
+    await message.answer(
+        "📅 Введите дату в формате ДД.ММ.ГГГГ:\n\n"
+        "Например: 25.12.2024\n"
+        "Или напишите 'сегодня', 'завтра'"
+    )
+    await state.set_state(ReminderStates.waiting_for_date)
+
+# Главная функция
+async def main():
+    # Инициализация БД
+    init_db()
+
+    # Запуск фоновой задачи
+    asyncio.create_task(check_reminders())
+
+    # Запуск бота
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+                    </code></pre>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">Dockerfile - Контейнеризация бота</h4>
+                <pre><code class="language-dockerfile">
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Установка зависимостей
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копирование исходного кода
+COPY . .
+
+# Создание пользователя для безопасности
+RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
+USER botuser
+
+# Запуск бота
+CMD ["python", "main.py"]
+                    </code></pre>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">requirements.txt - Зависимости проекта</h4>
+                <pre><code>
+aiogram==3.0.0b7
+python-dotenv==1.0.0
+APScheduler==3.10.1
+                    </code></pre>
+            </div>
+        </div>
+
+        <hr style="margin: 60px 0; border: 1px solid rgba(255,255,255,0.1);">
+
+        <!-- Бот для физики -->
+        <div id="physics" class="code-section">
+            <div class="code-section-header">
+                <i class="fas fa-atom"></i>
+                <h5>Physics Prep Bot</h5>
+            </div>
+
+            <div class="code-explanation">
+                <h6>О проекте:</h6>
+                <p>Образовательный Telegram бот для подготовки к экзаменам по физике. Содержит базу из 84 вопросов по разным темам механики, динамики, колебаний и волн.</p>
+
+                <h6>Особенности:</h6>
+                <ul>
+                    <li>🎯 Челлендж-режим: одна ошибка — тест обнуляется</li>
+                    <li>📊 Статистика ответов и прогресс пользователя</li>
+                    <li>🔄 Рандомизация порядка вопросов</li>
+                    <li>📝 Подробные объяснения правильных ответов</li>
+                    <li>🏆 Лучший результат (рекорд подряд правильных ответов)</li>
+                    <li>🎲 Варианты ответов одинаковой длины (нельзя угадать по длине)</li>
+                </ul>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">physics_bot.py - Основная структура</h4>
+                <pre><code class="language-python">
+import asyncio
+import logging
+import random
+import json
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+
+# Загрузка вопросов из JSON
+with open('physics_questions.json', 'r', encoding='utf-8') as f:
+    QUESTIONS = json.load(f)
+
+# Состояния FSM
+class PhysicsStates(StatesGroup):
+    in_challenge = State()
+    waiting_answer = State()
+
+# Глобальные переменные для пользовательских сессий
+user_sessions = {}
+user_current_tests = {}
+
+# Создание клавиатуры с вариантами ответов
+def get_answer_keyboard():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="1"), KeyboardButton(text="2")],
+            [KeyboardButton(text="3"), KeyboardButton(text="4")]
+        ],
+        resize_keyboard=True
+    )
+
+def get_main_keyboard():
+    return ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="🎯 Начать челлендж")],
+            [KeyboardButton(text="📊 Статистика"), KeyboardButton(text="❓ Помощь")]
+        ],
+        resize_keyboard=True
+    )
+
+# Команда /start
+@dp.message(Command("start"))
+async def cmd_start(message: types.Message):
+    user_id = message.from_user.id
+
+    # Инициализация сессии пользователя
+    if user_id not in user_sessions:
+        user_sessions[user_id] = {
+            "total_tests": 0,
+            "total_correct": 0,
+            "total_questions": 0,
+            "best_streak": 0,
+            "completed_tests": []
+        }
+
+    await message.answer(
+        "🔥 <b>ФИЗИЧЕСКИЙ ЧЕЛЛЕНДЖ</b>\n\n"
+        "<b>Правила:</b>\n"
+        "1. ❌ <b>Одна ошибка - и тест обнуляется!</b>\n"
+        "2. 🔄 <b>Вопросы не повторяются в тесте</b>\n"
+        "3. 🎯 <b>Цель: пройти максимальное количество вопросов подряд</b>\n\n"
+        "Всего вопросов в базе: 84\n"
+        "<b>Готов проверить свои знания? Нажимай 🎯 Начать челлендж!</b>",
+        reply_markup=get_main_keyboard(),
+        parse_mode="HTML"
+    )
+
+# Запуск челленджа
+@dp.message(lambda message: message.text == "🎯 Начать челлендж")
+async def start_challenge(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+
+    # Создаем случайный порядок вопросов
+    all_questions = list(QUESTIONS.keys())
+    random.shuffle(all_questions)
+
+    user_current_tests[user_id] = {
+        "question_order": all_questions,
+        "current_index": 0,
+        "correct_in_test": 0,
+        "questions_asked": set()
+    }
+
+    user_sessions[user_id]["total_tests"] += 1
+
+    await message.answer(
+        "🔥 <b>Челлендж начался!</b>\n\n"
+        "❌ <b>Одна ошибка - и все обнуляется!</b>\n"
+        "🎯 <b>Цель: пройти как можно больше вопросов подряд</b>\n\n"
+        "<i>Удачи! Первый вопрос:</i>",
+        reply_markup=get_answer_keyboard(),
+        parse_mode="HTML"
+    )
+
+    await ask_question(user_id, message.chat.id)
+    await state.set_state(PhysicsStates.waiting_answer)
+
+# Функция задавания вопроса
+async def ask_question(user_id, chat_id):
+    current_test = user_current_tests.get(user_id)
+    if not current_test:
+        return
+
+    question_id = current_test["question_order"][current_test["current_index"]]
+    question_data = QUESTIONS[question_id]
+
+    # Перемешиваем варианты ответов
+    all_answers = [question_data["correct"]] + question_data["wrong"]
+    random.shuffle(all_answers)
+
+    # Сохраняем правильный ответ
+    correct_position = all_answers.index(question_data["correct"]) + 1
+    current_test["correct_answer"] = correct_position
+    current_test["current_question"] = question_data
+
+    # Формируем текст вопроса
+    question_text = (
+        f"<i>Вопрос {current_test['current_index'] + 1}:</i>\n\n"
+        f"<b>{question_data['text']}</b>\n\n"
+        f"Варианты ответа:\n"
+        f"<b>1.</b> {all_answers[0]}\n"
+        f"<b>2.</b> {all_answers[1]}\n"
+        f"<b>3.</b> {all_answers[2]}\n"
+        f"<b>4.</b> {all_answers[3]}"
+    )
+
+    await bot.send_message(
+        chat_id,
+        question_text,
+        reply_markup=get_answer_keyboard(),
+        parse_mode="HTML"
+    )
+
+# Обработчик ответов
+@dp.message(PhysicsStates.waiting_answer)
+async def handle_answer(message: types.Message, state: FSMContext):
+    user_id = message.from_user.id
+    current_test = user_current_tests.get(user_id)
+
+    if not current_test:
+        return
+
+    user_answer = message.text
+    if user_answer not in ["1", "2", "3", "4"]:
+        await message.answer("Пожалуйста, выберите вариант ответа 1, 2, 3 или 4")
+        return
+
+    user_answer_num = int(user_answer)
+    correct_answer = current_test["correct_answer"]
+
+    if user_answer_num == correct_answer:
+        # Правильный ответ
+        current_test["correct_in_test"] += 1
+        current_test["current_index"] += 1
+
+        # Обновляем статистику
+        user_sessions[user_id]["total_correct"] += 1
+        user_sessions[user_id]["total_questions"] += 1
+
+        # Проверяем, не закончились ли вопросы
+        if current_test["current_index"] >= len(current_test["question_order"]):
+            # Победа!
+            final_streak = current_test["correct_in_test"]
+            if final_streak > user_sessions[user_id]["best_streak"]:
+                user_sessions[user_id]["best_streak"] = final_streak
+
+            await message.answer(
+                f"🎉 <b>ПОБЕДА!</b> Вы прошли все {final_streak} вопросов без ошибок!\n\n"
+                f"Ваш новый рекорд: <b>{final_streak}</b> вопросов подряд!",
+                reply_markup=get_main_keyboard(),
+                parse_mode="HTML"
+            )
+            await state.clear()
+        else:
+            await message.answer("✅ <b>Верно!</b> Следующий вопрос:", parse_mode="HTML")
+            await ask_question(user_id, message.chat.id)
+    else:
+        # Неправильный ответ
+        final_streak = current_test["correct_in_test"]
+        user_sessions[user_id]["total_questions"] += 1
+
+        correct_text = current_test["current_question"]["correct"]
+
+        await message.answer(
+            f"❌ <b>ОШИБКА!</b>\n\n"
+            f"Вы ответили правильно на <b>{final_streak}</b> вопросов подряд.\n\n"
+            f"Правильный ответ: <b>{correct_text}</b>\n\n"
+            f"Ваш лучший результат: <b>{user_sessions[user_id]['best_streak']}</b>",
+            reply_markup=get_main_keyboard(),
+            parse_mode="HTML"
+        )
+        await state.clear()
+
+# Главная функция
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+                    </code></pre>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">Пример структуры questions.json</h4>
+                <pre><code class="language-json">
+{
+    "1": {
+        "text": "От чего зависит нормальное (центростремительное) ускорение материальной точки?",
+        "correct": "Зависит от величины скорости и радиуса кривизны траектории.",
+        "wrong": [
+            "Зависит только от величины скорости движения точки.",
+            "Зависит от тангенциального ускорения и угловой скорости.",
+            "Зависит от угловой скорости и времени движения."
+        ]
+    },
+    "2": {
+        "text": "Что характеризует тангенциальное (касательное) ускорение?",
+        "correct": "Характеризует изменение скорости по величине.",
+        "wrong": [
+            "Характеризует изменение скорости по направлению.",
+            "Характеризует изменение радиуса кривизны траектории.",
+            "Характеризует изменение угловой скорости вращения."
+        ]
+    },
+    "3": {
+        "text": "По какой траектории движется частица, если тангенциальное ускорение постоянно, а нормальное ускорение равно нулю?",
+        "correct": "По прямой линии.",
+        "wrong": [
+            "По окружности с постоянной скоростью.",
+            "По параболической траектории.",
+            "По спирали с постоянным шагом."
+        ]
+    }
+}
+                    </code></pre>
+            </div>
+
+            <div class="tech-stack-grid">
+                <div class="tech-item">Python 3.10</div>
+                <div class="tech-item">aiogram 3.x</div>
+                <div class="tech-item">JSON</div>
+                <div class="tech-item">FSM</div>
+                <div class="tech-item">Random</div>
+                <div class="tech-item">asyncio</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 50px 0;">
+        <a href="index.html#telegram" class="back-to-categories">
+            <i class="fas fa-arrow-left"></i> Назад к Telegram ботам
+        </a>
+        <a href="index.html" class="btn secondary" style="margin-left: 20px;">
+            <i class="fas fa-th"></i> Все категории проектов
+        </a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

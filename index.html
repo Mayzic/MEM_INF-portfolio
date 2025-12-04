@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Павел Шумков | Дата-Инженер / DevOps</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="index.html" class="active">Главная</a></li>
+        <li><a href="about.html">Обо мне</a></li>
+        <li><a href="portfolio/index.html">Портфолио</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<!-- Hero секция с анимацией перехода -->
+<section id="hero" class="page-transition">
+    <div class="hero-content">
+        <h1>Я <span class="highlight">Шумков Павел</span>, Дата-Инженер</h1>
+        <p>Специализируюсь на построении data-пайплайнов, инфраструктуре (Docker, CI/CD) и разработке на Python. Фокус на DevOps-практиках в Data-инжиниринге.</p>
+        <div class="buttons">
+            <a href="about.html" class="btn primary">Узнать больше</a>
+            <a href="portfolio/index.html" class="btn secondary">Мои проекты</a>
+            <a href="https://github.com/Mayzic" target="_blank" class="btn outline">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+        </div>
+    </div>
+
+    <!-- Анимированный фон с кругами -->
+    <div class="hero-visual">
+        <div class="floating-elements">
+            <div class="floating-circle" style="--delay: 0s; --size: 80px; --color: var(--accent); top: 20%; left: 10%;"></div>
+            <div class="floating-circle" style="--delay: 1s; --size: 120px; --color: var(--secondary); top: 60%; left: 80%;"></div>
+            <div class="floating-circle" style="--delay: 2s; --size: 60px; --color: var(--accent); top: 80%; left: 15%;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Быстрый доступ к обо мне -->
+<section id="quick-about" class="quick-section">
+    <div class="container">
+        <h2 class="section-title">Кто я</h2>
+        <div class="quick-grid">
+            <div class="quick-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Студент ГУАП</h3>
+                <p>Санкт-Петербург, специализация в Дата-Инжиниринге</p>
+            </div>
+            <div class="quick-card">
+                <i class="fas fa-code"></i>
+                <h3>Python Разработчик</h3>
+                <p>ETL, API, FastAPI, Airflow, обработка данных</p>
+            </div>
+            <div class="quick-card">
+                <i class="fas fa-server"></i>
+                <h3>DevOps Инженер</h3>
+                <p>Docker, CI/CD, Linux, облачная инфраструктура</p>
+            </div>
+        </div>
+        <div class="center-button">
+            <a href="about.html" class="btn primary with-arrow">
+                Подробнее обо мне <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Основные технологии -->
+<section id="tech-stack" class="tech-section">
+    <div class="container">
+        <h2 class="section-title">Основные технологии</h2>
+        <div class="tech-grid">
+            <div class="tech-category">
+                <h3><i class="fab fa-python"></i> Python & Frameworks</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">Django</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">Airflow</span>
+                    <span class="tech-tag">NumPy</span>
+                    <span class="tech-tag">SQLAlchemy</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h3><i class="fas fa-cloud"></i> DevOps & Cloud</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">Kubernetes</span>
+                    <span class="tech-tag">Terraform</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">Yandex Cloud</span>
+                    <span class="tech-tag">Linux/Bash</span>
+                </div>
+            </div>
+            <div class="tech-category">
+                <h3><i class="fas fa-database"></i> Data Engineering</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">MongoDB</span>
+                    <span class="tech-tag">ClickHouse</span>
+                    <span class="tech-tag">Apache Airflow</span>
+                    <span class="tech-tag">ETL/ELT</span>
+                    <span class="tech-tag">Data Pipelines</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

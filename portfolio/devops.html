@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps проекты | Павел Шумков</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Главная</a></li>
+        <li><a href="../about.html">Обо мне</a></li>
+        <li><a href="index.html" class="active">Портфолио</a></li>
+        <li><a href="../contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="project-detail">
+    <div class="project-detail-header">
+        <span class="category-badge">DevOps • CI/CD • Infrastructure</span>
+        <h3>DevOps проекты</h3>
+        <p>Автоматизация процессов, инфраструктура как код, CI/CD пайплайны</p>
+    </div>
+
+    <div class="project-detail-content">
+        <div id="cicd">
+            <h4><i class="fas fa-sync-alt"></i> CI/CD Pipeline для микросервисов</h4>
+            <img src="https://via.placeholder.com/900x400.png?text=CI/CD+Pipeline+Architecture" alt="CI/CD Pipeline">
+
+            <p><strong>Задача:</strong> Настроить автоматический процесс сборки, тестирования и деплоя микросервисного приложения на облачную инфраструктуру.</p>
+
+            <h5>Что было сделано:</h5>
+            <ul>
+                <li>Настройка GitHub Actions workflow с матрицей тестирования для разных версий Python</li>
+                <li>Интеграция с Docker Hub / Yandex Container Registry</li>
+                <li>Автоматический деплой на staging/production среды на основе веток Git</li>
+                <li>Настройка уведомлений в Telegram/Slack о статусе сборок</li>
+                <li>Реализация rollback механизма при неудачном деплое</li>
+            </ul>
+
+            <div class="code-block-container" style="margin: 20px 0;">
+                <h4 class="code-title">.github/workflows/deploy.yml</h4>
+                <pre><code class="language-yaml">
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+
+env:
+  REGISTRY: cr.yandex/crpn3b1d1cvb8j4a8q7o
+  IMAGE_NAME: myapp
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: json_key
+        password: ${{ secrets.YC_SA_KEY }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=sha,prefix={{branch}}-
+
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to Yandex Cloud
+      env:
+        YC_SA_KEY: ${{ secrets.YC_SA_KEY }}
+      run: |
+        # Скачиваем и настраиваем YC CLI
+        curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+        source ~/.bashrc
+
+        # Настройка аутентификации
+        echo "$YC_SA_KEY" > key.json
+        yc config set service-account-key key.json
+
+        # Деплой контейнера
+        yc serverless container revision deploy \
+          --container-name ${{ env.IMAGE_NAME }} \
+          --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+          --cores 2 \
+          --memory 1GB \
+          --concurrency 10 \
+          --execution-timeout 60s \
+          --service-account-id ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+
+        # Проверка статуса
+        yc serverless container get --name ${{ env.IMAGE_NAME }}
+                    </code></pre>
+            </div>
+        </div>
+
+        <hr style="margin: 40px 0; border: 1px solid rgba(255,255,255,0.1);">
+
+        <div id="infrastructure">
+            <h4><i class="fas fa-code-branch"></i> Инфраструктура как код (IaC)</h4>
+            <img src="https://via.placeholder.com/900x400.png?text=Terraform+Infrastructure" alt="Terraform Infrastructure">
+
+            <p><strong>Задача:</strong> Автоматизировать создание и управление облачной инфраструктурой для data-пайплайнов.</p>
+
+            <h5>Компоненты инфраструктуры:</h5>
+            <div class="portfolio-grid" style="margin: 20px 0;">
+                <div class="project-item">
+                    <h6><i class="fas fa-database"></i> Базы данных</h6>
+                    <p>PostgreSQL для DWH, Redis для кэширования, MongoDB для документов</p>
+                </div>
+                <div class="project-item">
+                    <h6><i class="fas fa-server"></i> Вычислительные ресурсы</h6>
+                    <p>VM для ETL, Kubernetes для микросервисов, serverless функции</p>
+                </div>
+                <div class="project-item">
+                    <h6><i class="fas fa-network-wired"></i> Сеть и безопасность</h6>
+                    <p>VPC, security groups, bastion hosts, VPN</p>
+                </div>
+            </div>
+
+            <div class="code-block-container">
+                <h4 class="code-title">terraform/main.tf - Основная конфигурация</h4>
+                <pre><code class="language-hcl">
+# Конфигурация провайдера Yandex Cloud
+terraform {
+  required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
+      version = "0.84.0"
+    }
+  }
+}
+
+provider "yandex" {
+  token     = var.yc_token
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
+  zone      = "ru-central1-a"
+}
+
+# Создание сети
+resource "yandex_vpc_network" "data-network" {
+  name = "data-pipeline-network"
+}
+
+resource "yandex_vpc_subnet" "data-subnet" {
+  name           = "data-subnet"
+  zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.data-network.id
+  v4_cidr_blocks = ["10.10.0.0/16"]
+}
+
+# Создание PostgreSQL кластера для DWH
+resource "yandex_mdb_postgresql_cluster" "dwh-cluster" {
+  name        = "data-warehouse"
+  environment = "PRODUCTION"
+  network_id  = yandex_vpc_network.data-network.id
+
+  config {
+    version = 15
+    resources {
+      resource_preset_id = "s2.micro"
+      disk_type_id       = "network-ssd"
+      disk_size          = 100
+    }
+
+    postgresql_config = {
+      max_connections = 200
+      shared_buffers  = 256MB
+    }
+  }
+
+  host {
+    zone      = "ru-central1-a"
+    subnet_id = yandex_vpc_subnet.data-subnet.id
+  }
+}
+
+# Создание виртуальной машины для Airflow
+resource "yandex_compute_instance" "airflow-server" {
+  name        = "airflow-scheduler"
+  platform_id = "standard-v3"
+  zone        = "ru-central1-a"
+
+  resources {
+    cores  = 4
+    memory = 8
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = "fd8vmcue7aajpmeo39kk" # Ubuntu 22.04
+      size     = 50
+      type     = "network-ssd"
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.data-subnet.id
+    nat       = true
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    user-data = file("cloud-config.yaml")
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y docker.io docker-compose",
+      "sudo systemctl enable docker",
+      "sudo usermod -aG docker $USER"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.network_interface[0].nat_ip_address
+    }
+  }
+}
+
+# Output values
+output "airflow_public_ip" {
+  value = yandex_compute_instance.airflow-server.network_interface[0].nat_ip_address
+}
+
+output "postgresql_cluster_fqdn" {
+  value = yandex_mdb_postgresql_cluster.dwh-cluster.host[0].fqdn
+}
+                    </code></pre>
+            </div>
+        </div>
+
+        <div class="tech-stack-grid" style="margin-top: 40px;">
+            <div class="tech-item">Terraform</div>
+            <div class="tech-item">Ansible</div>
+            <div class="tech-item">Docker</div>
+            <div class="tech-item">Kubernetes</div>
+            <div class="tech-item">GitHub Actions</div>
+            <div class="tech-item">Yandex Cloud</div>
+            <div class="tech-item">Prometheus</div>
+            <div class="tech-item">Grafana</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 50px 0;">
+        <a href="index.html#devops" class="back-to-categories">
+            <i class="fas fa-arrow-left"></i> Назад к DevOps проектам
+        </a>
+        <a href="index.html" class="btn secondary" style="margin-left: 20px;">
+            <i class="fas fa-th"></i> Все категории проектов
+        </a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

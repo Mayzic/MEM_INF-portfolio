@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML проекты | Павел Шумков</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Главная</a></li>
+        <li><a href="../about.html">Обо мне</a></li>
+        <li><a href="index.html" class="active">Портфолио</a></li>
+        <li><a href="../contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<section id="project-detail">
+    <div class="project-detail-header">
+        <span class="category-badge">AI/ML • DevOps • Data Engineering</span>
+        <h3>Legal Monitor API</h3>
+        <p>Система автоматического мониторинга рекламного контента с использованием RAG-поиска</p>
+    </div>
+
+    <div class="project-detail-content">
+        <img src="https://via.placeholder.com/900x450.png?text=Legal+Monitor+API+Architecture" alt="Архитектура проекта">
+
+        <h4><i class="fas fa-info-circle"></i> Описание проекта</h4>
+        <p>Legal Monitor API — система для автоматического анализа рекламного контента на соответствие законодательству (ФЗ-38 "О рекламе", ФЗ-152 "О персональных данных"). Проект реализован в рамках стажировки "AI-импульс" с фокусом на DevOps-практиках.</p>
+
+        <h4><i class="fas fa-user-tie"></i> Моя роль</h4>
+        <p><strong>DevOps инженер + Дата-Инженер</strong></p>
+        <ul style="margin-left: 20px; margin-bottom: 30px;">
+            <li>Разработка и оптимизация Docker-образов (многоступенчатая сборка)</li>
+            <li>Настройка CI/CD пайплайна (GitHub Actions) для автоматического деплоя</li>
+            <li>Деплой на облачную инфраструктуру Yandex Cloud</li>
+            <li>Реализация RAG-поиска по базе 1000+ юридических документов</li>
+            <li>Оптимизация производительности векторного поиска с использованием NumPy</li>
+            <li>Настройка мониторинга и логирования</li>
+        </ul>
+
+        <h4><i class="fas fa-tools"></i> Технологический стек</h4>
+        <div class="tech-stack-grid">
+            <div class="tech-item">Python 3.10</div>
+            <div class="tech-item">Sanic (Async API)</div>
+            <div class="tech-item">Docker & Docker Compose</div>
+            <div class="tech-item">Jina Embeddings</div>
+            <div class="tech-item">ChromaDB</div>
+            <div class="tech-item">GigaChat AI</div>
+            <div class="tech-item">GitHub Actions</div>
+            <div class="tech-item">Yandex Cloud</div>
+            <div class="tech-item">NumPy</div>
+            <div class="tech-item">SQLite/PostgreSQL</div>
+        </div>
+
+        <h4><i class="fas fa-star"></i> Ключевые особенности</h4>
+        <div class="portfolio-grid" style="margin: 40px 0;">
+            <div class="project-item">
+                <h5><i class="fas fa-search"></i> RAG-поиск</h5>
+                <p>Векторный поиск по базе юридических статей с использованием косинусного сходства и эмбеддингов Jina</p>
+            </div>
+            <div class="project-item">
+                <h5><i class="fas fa-robot"></i> AI-интеграция</h5>
+                <p>Интеграция с GigaChat Vision для анализа изображений и текстов рекламы</p>
+            </div>
+            <div class="project-item">
+                <h5><i class="fas fa-file-excel"></i> Автоотчеты</h5>
+                <p>Автоматическая генерация Excel-отчетов с результатами проверок</p>
+            </div>
+        </div>
+
+        <h4><i class="fas fa-code"></i> Пример кода: RAG-поиск</h4>
+        <div class="code-block-container">
+            <h4 class="code-title">search.py - Метод поиска релевантных статей</h4>
+            <pre><code class="language-python">
+import numpy as np
+from typing import List, Dict
+
+class LegalSearch:
+    def __init__(self, embeddings: np.ndarray, metadata: List[Dict]):
+        self.embeddings = embeddings
+        self.metadata = metadata
+
+    def search(self, query: str, top_k: int = 5) -> List[Dict]:
+        """Поиск релевантных статей с использованием косинусного сходства"""
+
+        # Получение эмбеддинга запроса
+        query_embedding = self._get_embedding(query)
+        if query_embedding is None:
+            return []
+
+        # Нормализация векторов
+        query_vec = query_embedding / np.linalg.norm(query_embedding)
+        doc_matrix = self.embeddings / np.linalg.norm(self.embeddings, axis=1, keepdims=True)
+
+        # Вычисление косинусного сходства
+        similarities = np.dot(doc_matrix, query_vec)
+
+        # Получение индексов top_k наиболее релевантных документов
+        top_indices = np.argsort(similarities)[::-1][:top_k]
+
+        # Формирование результатов
+        results = []
+        for idx in top_indices:
+            if similarities[idx] > 0.05:  # Порог релевантности
+                results.append({
+                    'score': float(similarities[idx]),
+                    'law': self.metadata[idx]['law'],
+                    'number': self.metadata[idx]['number'],
+                    'content': self.metadata[idx]['content'][:500] + '...'
+                })
+
+        return results
+
+    def _get_embedding(self, text: str) -> np.ndarray:
+        """Получение эмбеддинга текста через Jina API"""
+        # Реализация запроса к Jina Embeddings API
+        pass
+                </code></pre>
+        </div>
+
+        <h4><i class="fas fa-ship"></i> Docker-контейнеризация</h4>
+        <div class="code-block-container">
+            <h4 class="code-title">Dockerfile - многоступенчатая сборка</h4>
+            <pre><code class="language-dockerfile">
+# ========== Stage 1: Builder ==========
+FROM python:3.10-slim as builder
+
+# Установка системных зависимостей
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Копирование и установка зависимостей
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# ========== Stage 2: Runtime ==========
+FROM python:3.10-slim
+
+# Создание не-root пользователя для безопасности
+RUN useradd --create-home --shell /bin/bash appuser
+WORKDIR /home/appuser/app
+
+# Копирование зависимостей из builder stage
+COPY --from=builder /root/.local /home/appuser/.local
+COPY --chown=appuser:appuser . .
+
+# Настройка окружения
+ENV PATH="/home/appuser/.local/bin:$PATH"
+ENV PYTHONPATH="/home/appuser/app"
+ENV PYTHONUNBUFFERED=1
+
+# Переключение на не-root пользователя
+USER appuser
+
+# Health check для оркестраторов
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=2)"
+
+EXPOSE 8000
+
+# Запуск приложения
+CMD ["python", "main.py"]
+                </code></pre>
+        </div>
+
+        <h4><i class="fas fa-rocket"></i> CI/CD Pipeline</h4>
+        <div class="code-block-container">
+            <h4 class="code-title">GitHub Actions workflow</h4>
+            <pre><code class="language-yaml">
+name: Build, Test and Deploy
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Run tests
+      run: |
+        pytest --cov=./ --cov-report=xml
+
+    - name: Build Docker image
+      run: |
+        docker build -t legal-monitor:latest .
+
+    - name: Push to Registry
+      if: github.ref == 'refs/heads/main'
+      env:
+        YC_SA_KEY: ${{ secrets.YC_SA_KEY }}
+      run: |
+        echo "$YC_SA_KEY" > key.json
+        yc config set service-account-key key.json
+        yc container registry configure-docker
+        docker tag legal-monitor:latest \
+          cr.yandex/crpn3b1d1cvb8j4a8q7o/legal-monitor:latest
+        docker push cr.yandex/crpn3b1d1cvb8j4a8q7o/legal-monitor:latest
+
+    - name: Deploy to Yandex Cloud
+      if: github.ref == 'refs/heads/main'
+      env:
+        YC_SA_KEY: ${{ secrets.YC_SA_KEY }}
+      run: |
+        yc serverless container revision deploy \
+          --container-name legal-monitor \
+          --image cr.yandex/crpn3b1d1cvb8j4a8q7o/legal-monitor:latest \
+          --cores 1 \
+          --memory 512MB \
+          --concurrency 8 \
+          --execution-timeout 30s
+                </code></pre>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 50px 0;">
+        <a href="index.html#ai-ml" class="back-to-categories">
+            <i class="fas fa-arrow-left"></i> Назад к AI/ML проектам
+        </a>
+        <a href="index.html" class="btn secondary" style="margin-left: 20px;">
+            <i class="fas fa-th"></i> Все категории проектов
+        </a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Павел Шумков | Обо мне</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav>
+    <div class="logo">Mayzic.<span>DEV</span></div>
+    <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="about.html" class="active">Обо мне</a></li>
+        <li><a href="portfolio/index.html">Портфолио</a></li>
+        <li><a href="contact.html">Контакты</a></li>
+    </ul>
+</nav>
+
+<!-- Hero секция для "Обо мне" -->
+<section id="about-hero" class="page-transition">
+    <div class="hero-content">
+        <h1><span class="highlight">Павел Шумков</span></h1>
+        <p class="subtitle">Студент ГУАП • Дата-Инженер • DevOps</p>
+        <p class="description">Специализируюсь на построении надёжных и масштабируемых data-пайплайнов с фокусом на DevOps-практиках и современной облачной инфраструктуре.</p>
+        <div class="buttons">
+            <a href="index.html" class="btn outline">
+                <i class="fas fa-arrow-left"></i> На главную
+            </a>
+            <a href="portfolio/index.html" class="btn primary">Смотреть проекты</a>
+            <a href="contact.html" class="btn secondary">Связаться</a>
+        </div>
+    </div>
+
+    <!-- Анимированные элементы (такие же как на главной) -->
+    <div class="hero-visual">
+        <div class="floating-elements">
+            <div class="floating-circle" style="--delay: 0s; --size: 100px; --color: var(--secondary); top: 15%; left: 85%;"></div>
+            <div class="floating-circle" style="--delay: 1.5s; --size: 70px; --color: var(--accent); top: 75%; left: 10%;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Детальная информация -->
+<section id="about-detail">
+    <div class="about-container">
+        <div class="about-grid">
+            <!-- Фото и основные данные -->
+            <div class="about-photo-section">
+                <div class="photo-wrapper">
+                    <img src="img/me.jpg" alt="Фото Павла Шумкова" class="profile-photo">
+                    <div class="photo-frame"></div>
+                </div>
+                <div class="quick-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Локация</h4>
+                            <p>Санкт-Петербург, Россия</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-university"></i>
+                        <div>
+                            <h4>Образование</h4>
+                            <p>ГУАП (студент)</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <h4>Специализация</h4>
+                            <p>Дата-Инжиниринг / DevOps</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Текстовая информация -->
+            <div class="about-text-section">
+                <h2 class="section-title">Мой путь и специализация</h2>
+
+                <div class="text-block">
+                    <h3><i class="fas fa-rocket"></i> О себе</h3>
+                    <p>Я, Шумков Павел Сергеевич, студент ГУАП в Санкт-Петербурге. Моя основная специализация — <strong>Дата-Инжиниринг и DevOps</strong>. Стремлюсь к построению надёжных, масштабируемых data-пайплайнов и инфраструктуры для обработки данных.</p>
+                </div>
+
+                <div class="text-block">
+                    <h3><i class="fas fa-cogs"></i> Технические навыки</h3>
+                    <p>Владею Python для разработки ETL-процессов, имею опыт работы с Docker, CI/CD (GitHub Actions/GitLab CI), мониторингом и оркестрацией. В проектах участвую как в роли разработчика, так и в роли инженера, отвечающего за деплой и инфраструктуру.</p>
+                </div>
+
+                <div class="skills-block">
+                    <h3><i class="fas fa-star"></i> Ключевые компетенции</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4><i class="fas fa-server"></i> DevOps/DataOps</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">CI/CD</span>
+                                <span class="skill-tag">Linux</span>
+                                <span class="skill-tag">Bash</span>
+                                <span class="skill-tag">Terraform</span>
+                                <span class="skill-tag">Kubernetes</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4><i class="fas fa-code"></i> Разработка</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">FastAPI</span>
+                                <span class="skill-tag">SQL</span>
+                                <span class="skill-tag">Airflow</span>
+                                <span class="skill-tag">ETL/ELT</span>
+                                <span class="skill-tag">Pandas</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4><i class="fas fa-database"></i> Data Engineering</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">PostgreSQL</span>
+                                <span class="skill-tag">MongoDB</span>
+                                <span class="skill-tag">ClickHouse</span>
+                                <span class="skill-tag">Apache Airflow</span>
+                                <span class="skill-tag">Data Pipelines</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4><i class="fas fa-cloud"></i> Облака</h4>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Yandex Cloud</span>
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">Docker Compose</span>
+                                <span class="skill-tag">Serverless</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-block">
+                    <h3><i class="fas fa-bullseye"></i> Цели и развитие</h3>
+                    <p>Ищу позицию <strong>Дата-Инженера / DevOps инженера</strong>. Готов к задачам по построению data-пайплайнов, настройке инфраструктуры и автоматизации процессов. Стремлюсь развиваться в направлении ML Ops и построения end-to-end data платформ.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA блок -->
+        <div class="about-cta">
+            <h3>Заинтересованы в сотрудничестве?</h3>
+            <p>Всегда открыт для обсуждения интересных проектов и возможностей для развития.</p>
+            <div class="cta-buttons">
+                <a href="portfolio/index.html" class="btn primary">
+                    <i class="fas fa-briefcase"></i> Смотреть проекты
+                </a>
+                <a href="contact.html" class="btn secondary">
+                    <i class="fas fa-envelope"></i> Связаться со мной
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <p>Телефон: <a href="tel:+79222572429">+7 (922) 257-24-29</a></p>
+        <p>Email: <a href="mailto:shumkov.pasha@list.ru">shumkov.pasha@list.ru</a></p>
+        <div class="social-icons">
+            <a href="https://github.com/Mayzic" target="_blank"><i class="fab fa-github fa-2x"></i></a>
+            <a href="https://t.me/Hippo_lilka" target="_blank"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+        <p class="copyright">© 2025 Шумков Павел. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
